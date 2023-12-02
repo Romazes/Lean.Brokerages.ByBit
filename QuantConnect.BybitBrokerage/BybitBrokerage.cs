@@ -47,12 +47,6 @@ namespace QuantConnect.Brokerages.Bybit;
 [BrokerageFactory(typeof(BybitBrokerageFactory))]
 public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
 {
-    private static readonly List<BybitProductCategory> SupportedBybitProductCategories = new() { BybitProductCategory.Spot, BybitProductCategory.Linear, BybitProductCategory.Inverse };
-
-    private static readonly List<SecurityType> SuppotedSecurityTypes = new() { SecurityType.Crypto, SecurityType.CryptoFuture };
-
-    private static readonly string MarketName = Market.Bybit;
-
     private readonly Dictionary<BybitProductCategory, BrokerageMultiWebSocketSubscriptionManager> _subscriptionManagers = new();
 
     private IAlgorithm _algorithm;
@@ -67,6 +61,12 @@ public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
     private bool _unsupportedTickTypeHistoryLogged;
     private bool _unsupportedResolutionOpenInterestHistoryLogged;
     private bool _invalidTimeRangeHistoryLogged;
+
+    protected virtual string MarketName => Market.Bybit;
+    protected virtual BybitAccountType WalletAccountType => BybitAccountType.Unified;
+    protected virtual SecurityType[] SuppotedSecurityTypes { get; } = { SecurityType.Crypto, SecurityType.CryptoFuture };
+    protected virtual BybitProductCategory[] SupportedBybitProductCategories { get; } =
+        { BybitProductCategory.Spot, BybitProductCategory.Linear };
 
     /// <summary>
     /// Order provider
@@ -91,7 +91,7 @@ public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
     /// <summary>
     /// Parameterless constructor for brokerage
     /// </summary>
-    public BybitBrokerage() : base(MarketName)
+    public BybitBrokerage() : base(Market.Bybit)
     {
     }
 
@@ -130,7 +130,7 @@ public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
     public BybitBrokerage(string apiKey, string apiSecret, string restApiUrl, string webSocketBaseUrl,
         IAlgorithm algorithm, IOrderProvider orderProvider, ISecurityProvider securityProvider,
         IDataAggregator aggregator, LiveNodePacket job, BybitVIPLevel vipLevel = BybitVIPLevel.VIP0)
-        : base(MarketName)
+        : base(Market.Bybit)
     {
         Initialize(
             webSocketBaseUrl,
@@ -340,8 +340,9 @@ public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
 
         if (baseCanSubscribe && symbol.SecurityType == SecurityType.CryptoFuture)
         {
-            //Can only subscribe to non-future pairs
-            return CurrencyPairUtil.TryDecomposeCurrencyPair(symbol, out _, out var quoteCurrency) && quoteCurrency is "USDT" or "USD";
+            return CurrencyPairUtil.TryDecomposeCurrencyPair(symbol, out _, out var quoteCurrency) &&
+                   (quoteCurrency is "USDT" || SupportedBybitProductCategories.Contains(BybitProductCategory.Inverse) &&
+                       quoteCurrency is "USD");
         }
 
         return baseCanSubscribe;
@@ -500,7 +501,7 @@ public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
     /// Checks whether the specified symbol is supported by this brokerage by its security type
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsSupported(Symbol symbol)
+    protected bool IsSupported(Symbol symbol)
     {
         return SuppotedSecurityTypes.Contains(symbol.SecurityType);
     }
