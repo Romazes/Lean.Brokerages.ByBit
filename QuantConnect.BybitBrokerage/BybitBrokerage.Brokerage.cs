@@ -122,7 +122,7 @@ public partial class BybitBrokerage
     public override List<CashAmount> GetCashBalance()
     {
         return ApiClient.Account
-            .GetWalletBalances(WalletAccountType).Assets
+            .GetWalletBalances().Assets
             .Select(x => new CashAmount(x.WalletBalance, x.Asset)).ToList();
     }
 

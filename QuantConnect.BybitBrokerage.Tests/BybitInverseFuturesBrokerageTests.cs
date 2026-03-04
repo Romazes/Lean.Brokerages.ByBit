@@ -17,7 +17,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
-using QuantConnect.BybitBrokerage.Models.Enums;
+using QuantConnect.Brokerages.Bybit.Models.Enums;
 using QuantConnect.Data;
 using QuantConnect.Interfaces;
 using QuantConnect.Lean.Engine.DataFeeds;
@@ -27,7 +27,7 @@ using QuantConnect.Securities;
 using QuantConnect.Tests.Brokerages;
 using QuantConnect.Util;
 
-namespace QuantConnect.BybitBrokerage.Tests;
+namespace QuantConnect.Brokerages.Bybit.Tests;
 
 [TestFixture, Explicit("Requires valid credentials to be setup and run outside USA")]
 public partial class BybitInverseFuturesBrokerageTests : BybitBrokerageTests

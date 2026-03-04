@@ -13,14 +13,13 @@
  * limitations under the License.
 */
 
-using QuantConnect.Brokerages;
-using QuantConnect.BybitBrokerage.Models.Enums;
 using QuantConnect.Data;
-using QuantConnect.Interfaces;
 using QuantConnect.Packets;
 using QuantConnect.Securities;
+using QuantConnect.Interfaces;
+using QuantConnect.Brokerages.Bybit.Models.Enums;
 
-namespace QuantConnect.BybitBrokerage;
+namespace QuantConnect.Brokerages.Bybit;
 
 /// <summary>
 /// Bybit inverse futures brokerage implementation
@@ -28,9 +27,8 @@ namespace QuantConnect.BybitBrokerage;
 [BrokerageFactory(typeof(BybitInverseFuturesBrokerageFactory))]
 public class BybitInverseFuturesBrokerage : BybitBrokerage
 {
-    protected override SecurityType[] SuppotedSecurityTypes { get; } = { SecurityType.Crypto, SecurityType.CryptoFuture };
+    protected override SecurityType[] SuppotedSecurityTypes { get; } = { SecurityType.CryptoFuture };
     protected override BybitProductCategory[] SupportedBybitProductCategories { get; } = { BybitProductCategory.Inverse };
-    protected override BybitAccountType WalletAccountType => BybitAccountType.Contract;
 
     /// <summary>
     /// Parameterless constructor for brokerage
@@ -38,7 +36,7 @@ public class BybitInverseFuturesBrokerage : BybitBrokerage
     public BybitInverseFuturesBrokerage()
     {
     }
-    
+
     /// <summary>
     /// Constructor for brokerage
     /// </summary>

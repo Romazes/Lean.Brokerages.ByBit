@@ -207,7 +207,7 @@ namespace QuantConnect.Brokerages.Bybit.Tests
             var afterQuantity = afterHoldings == null ? 0 : afterHoldings.Amount;
 
             var fee = order.Quantity * TakerFee;
-            
+
             Assert.AreEqual(GetDefaultQuantity(), afterQuantity - beforeQuantity + fee);
         }
 

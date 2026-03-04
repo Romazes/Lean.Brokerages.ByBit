@@ -13,7 +13,6 @@
  * limitations under the License.
 */
 
-using System;
 using System.Collections.Generic;
 using QuantConnect.Brokerages.Bybit.Models;
 using QuantConnect.Securities;
@@ -41,19 +40,12 @@ public class BybitAccountApiEndpoint : BybitApiEndpoint
     /// <summary>
     /// Obtain wallet balance, query asset information of each currency, and account risk rate information
     /// </summary>
-    /// <param name="accountType">The account type to fetch wallet balances for</param>
     /// <returns>The wallet balances</returns>
-    public BybitBalance GetWalletBalances(BybitAccountType accountType)
-    {
-        if (accountType is not (BybitAccountType.Contract or BybitAccountType.Unified))
-        {
-            throw new ArgumentOutOfRangeException(nameof(accountType),
-                "Wallet balances can only be fetched for 'UNIFIED' and 'CONTRACT'");
-        }
-        
+    public BybitBalance GetWalletBalances()
+    {        
         var parameters = new KeyValuePair<string, string>[]
         {
-            new("accountType", accountType.ToStringInvariant().ToUpperInvariant())
+            new("accountType", "UNIFIED")
         };
 
         var result =

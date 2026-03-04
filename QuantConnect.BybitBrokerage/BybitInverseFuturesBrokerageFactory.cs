@@ -13,12 +13,13 @@
  * limitations under the License.
 */
 
-using QuantConnect.BybitBrokerage.Models.Enums;
 using QuantConnect.Data;
-using QuantConnect.Interfaces;
 using QuantConnect.Packets;
+using QuantConnect.Securities;
+using QuantConnect.Interfaces;
+using QuantConnect.Brokerages.Bybit.Models.Enums;
 
-namespace QuantConnect.BybitBrokerage;
+namespace QuantConnect.Brokerages.Bybit;
 
 /// <summary>
 /// Factory method to create Bybit inverse brokerage
@@ -28,9 +29,16 @@ public class BybitInverseFuturesBrokerageFactory : BybitBrokerageFactory
     /// <summary>
     /// Initializes a new instance of the <see cref="BybitInverseFuturesBrokerageFactory"/> class
     /// </summary>
-    public BybitInverseFuturesBrokerageFactory(): base(typeof(BybitInverseFuturesBrokerage))
+    public BybitInverseFuturesBrokerageFactory() : base(typeof(BybitInverseFuturesBrokerage))
     {
     }
+
+    /// <summary>
+    /// Gets a brokerage model that can be used to model this brokerage's unique behaviors
+    /// </summary>
+    /// <param name="orderProvider">The order provider</param>
+    public override IBrokerageModel GetBrokerageModel(IOrderProvider orderProvider) =>
+        new BybitInverseFuturesBrokerageModel(AccountType.Margin);
 
     /// <summary>
     /// Creates a new BybitBrokerage instance

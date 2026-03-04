@@ -47,6 +47,8 @@ namespace QuantConnect.Brokerages.Bybit;
 [BrokerageFactory(typeof(BybitBrokerageFactory))]
 public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
 {
+    private static readonly string MarketName = Market.Bybit;
+
     private readonly Dictionary<BybitProductCategory, BrokerageMultiWebSocketSubscriptionManager> _subscriptionManagers = new();
 
     private IAlgorithm _algorithm;
@@ -62,8 +64,6 @@ public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
     private bool _unsupportedResolutionOpenInterestHistoryLogged;
     private bool _invalidTimeRangeHistoryLogged;
 
-    protected virtual string MarketName => Market.Bybit;
-    protected virtual BybitAccountType WalletAccountType => BybitAccountType.Unified;
     protected virtual SecurityType[] SuppotedSecurityTypes { get; } = { SecurityType.Crypto, SecurityType.CryptoFuture };
     protected virtual BybitProductCategory[] SupportedBybitProductCategories { get; } =
         { BybitProductCategory.Spot, BybitProductCategory.Linear };

@@ -57,24 +57,4 @@ public class BybitPositionApiEndpoint : BybitApiEndpoint
 
         return FetchAll<BybitPositionInfo>("/position/list", category, 200, parameters, true);
     }
-
-    /// <summary>
-    /// It supports to switch the position mode for USDT perpetual and Inverse futures.
-    /// If you are in one-way Mode, you can only open one position on Buy or Sell side. If you are in hedge mode, you can open both Buy and Sell side positions simultaneously.
-    /// </summary>
-    /// <param name="category">The product category</param>
-    /// <param name="symbol">The symbol for which the mode should be changed</param>
-    /// <param name="mode">The mode which should be set</param>
-    public void SwitchPositionMode(BybitProductCategory category, Symbol symbol, PositionMode mode)
-    {
-        var ticker = SymbolMapper.GetBrokerageSymbol(symbol);
-        var requestBody = new
-        {
-            category,
-            mode = (int)mode,
-            symbol = ticker
-        };
-
-        ExecutePostRequest<ByBitResponse>("/position/switch-mode", requestBody);
-    }
 }
