@@ -21,7 +21,7 @@ namespace QuantConnect.Brokerages.Bybit.Tests
     [TestFixture, Explicit("Requires valid credentials to be setup and run outside USA")]
     public class BybitInverseFuturesBrokerageHistoryProviderTests : BybitBrokerageHistoryProviderTests
     {
-        private static readonly Symbol ETHUSD = Symbol.Create("ETHUSDT", SecurityType.CryptoFuture, Market.Bybit);
+        private static readonly Symbol ETHUSD = Symbol.Create("ETHUSD", SecurityType.CryptoFuture, Market.Bybit);
 
         private static TestCaseData[] ValidHistory
         {

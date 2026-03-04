@@ -42,7 +42,7 @@ public class BybitAccountApiEndpoint : BybitApiEndpoint
     /// </summary>
     /// <returns>The wallet balances</returns>
     public BybitBalance GetWalletBalances()
-    {        
+    {
         var parameters = new KeyValuePair<string, string>[]
         {
             new("accountType", "UNIFIED")
