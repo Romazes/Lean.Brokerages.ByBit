@@ -45,7 +45,7 @@ public partial class BybitInverseFuturesBrokerageTests : BybitBrokerageTests
         string websocketUrl, IAlgorithm algorithm, IOrderProvider orderProvider, ISecurityProvider securityProvider,
         IDataAggregator aggregator)
     {
-        return new BybitInverseFuturesBrokerage(apiKey, apiSecret, apiUrl, websocketUrl, algorithm, orderProvider, securityProvider, new AggregationManager(), null);
+        return new BybitBrokerage(apiKey, apiSecret, apiUrl, websocketUrl, algorithm, orderProvider, securityProvider, new AggregationManager(), null);
 
     }
     

@@ -46,9 +46,10 @@ namespace QuantConnect.Brokerages.Bybit.Tests
         }
 
         [Ignore("The brokerage is shared between different product categories, therefore this test is only required in the base class")]
-        public override void ReturnsNullOnInvalidHistoryRequest(Symbol symbol, Resolution resolution, TimeSpan period, TickType tickType)
+        [TestCase(default, default, default, default)]
+        public override void ReturnsNullOnInvalidHistoryRequest(
+            Symbol symbol, Resolution resolution, TimeSpan period, TickType tickType)
         {
-            base.ReturnsNullOnInvalidHistoryRequest(symbol, resolution, period, tickType);
         }
     }
 }

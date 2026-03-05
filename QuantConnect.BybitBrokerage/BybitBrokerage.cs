@@ -47,6 +47,10 @@ namespace QuantConnect.Brokerages.Bybit;
 [BrokerageFactory(typeof(BybitBrokerageFactory))]
 public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
 {
+    private static readonly List<BybitProductCategory> SupportedBybitProductCategories = new() { BybitProductCategory.Spot, BybitProductCategory.Linear, BybitProductCategory.Inverse };
+
+    private static readonly List<SecurityType> SuppotedSecurityTypes = new() { SecurityType.Crypto, SecurityType.CryptoFuture };
+
     private static readonly string MarketName = Market.Bybit;
 
     private readonly Dictionary<BybitProductCategory, BrokerageMultiWebSocketSubscriptionManager> _subscriptionManagers = new();
@@ -63,10 +67,6 @@ public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
     private bool _unsupportedTickTypeHistoryLogged;
     private bool _unsupportedResolutionOpenInterestHistoryLogged;
     private bool _invalidTimeRangeHistoryLogged;
-
-    protected virtual SecurityType[] SuppotedSecurityTypes { get; } = { SecurityType.Crypto, SecurityType.CryptoFuture };
-    protected virtual BybitProductCategory[] SupportedBybitProductCategories { get; } =
-        { BybitProductCategory.Spot, BybitProductCategory.Linear };
 
     /// <summary>
     /// Order provider
@@ -501,7 +501,7 @@ public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
     /// Checks whether the specified symbol is supported by this brokerage by its security type
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    protected bool IsSupported(Symbol symbol)
+    private static bool IsSupported(Symbol symbol)
     {
         return SuppotedSecurityTypes.Contains(symbol.SecurityType);
     }
