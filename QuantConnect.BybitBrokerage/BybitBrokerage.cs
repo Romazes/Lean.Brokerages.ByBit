@@ -545,6 +545,16 @@ public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
         }
     }
 
+    private IEnumerable<BybitProductCategory> GetWorkingProductCategories(BrokerageName brokerageName)
+    {
+        if (brokerageName == BrokerageName.BybitInverseFutures)
+        {
+            return [BybitProductCategory.Inverse];
+        }
+
+        return [BybitProductCategory.Spot, BybitProductCategory.Linear];
+    }
+
     /// <summary>
     /// Validate the user of this project has permission to be using it via our web API.
     /// </summary>
