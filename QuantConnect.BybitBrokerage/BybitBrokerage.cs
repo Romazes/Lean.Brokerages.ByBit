@@ -305,8 +305,6 @@ public partial class BybitBrokerage : BaseWebsocketsBrokerage, IDataQueueHandler
             });
         }
 
-        DeploymentDetailsHelper.Add("bybit-api-url", restApiUrl);
-        DeploymentDetailsHelper.Add("bybit-websocket-url", baseWssUrl);
         DeploymentDetailsHelper.Add("bybit-vip-level", vipLevel.ToStringInvariant());
     }
 
